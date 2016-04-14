@@ -1,7 +1,9 @@
 extern "C" {
-  int mydouble( int x ); // does this name my double, or an 'external' double?
+  // "C++" names (the default) are mangled, which makes them hard to use.
+  // We can declare unmangled "C" names for our functions in here.
+  // int mydouble( int x );
 };
 
-int mydouble( int x ){
-  return x * 20;
+extern "C" int mydouble( int x ){
+  return x * 2;
 };

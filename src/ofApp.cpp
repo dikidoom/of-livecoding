@@ -1,26 +1,55 @@
 #include "ofApp.h"
+#include <dlfcn.h>
 
 //--------------------------------------------------------------
 void ofApp::setup(){
+  // opening
+  ofLog() << "Opening lib ... ";
+  handle = dlopen( "mylib.so", RTLD_LAZY );
+  if( handle == NULL ){
+    ofLog() << "Error: " << dlerror();
+  } else {
+    // binding
+    dynamics.mydouble = (int(*)(int)) dlsym( handle, "mydouble" );
+  }
+}
 
+void ofApp::exit(){
+  ofLog() << "Exiting ... ";
+  int close = -1;
+  if( handle != NULL ){
+    ofLog() << "Closing lib ... ";
+    close = dlclose( handle );
+    if( close != 0 ){
+      ofLog() << "Error: " << dlerror();
+    }
+  }
+  ofBaseApp::exit();
 }
 
 //--------------------------------------------------------------
 void ofApp::update(){
-
 }
 
 //--------------------------------------------------------------
-void ofApp::draw(){
+ofPoint orbit( int distance = 300, float speed = 1.0f ){
   uint64_t time = ofGetElapsedTimeMillis();
-  float scale = 1.0f / 1000;
-  int orbit = 300;
+  float scale = speed / 1000;
   ofPoint center = { ofGetWindowWidth() / 2,
                      ofGetWindowHeight() / 2 };
-  ofPoint offset = { cos( time * scale ) * orbit,
-                     sin( time * scale ) * orbit };
+  ofPoint offset = { cos( time * scale ) * distance,
+                     sin( time * scale ) * distance };
+  return center + offset;
+}
+
+void ofApp::draw(){
   ofSetColor( ofColor::black );
-  ofDrawSphere( center + offset, 20 );
+  ofPoint orbit1 = orbit( 100,
+                          1.0f );
+  ofPoint orbit2 = orbit( (*dynamics.mydouble)(100),
+                          2.0f );
+  ofDrawSphere( orbit1, 20 );
+  ofDrawSphere( orbit2, 20 );
 }
 
 //--------------------------------------------------------------

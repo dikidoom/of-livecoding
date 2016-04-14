@@ -76,7 +76,9 @@
 # add a runtime path to search for those shared libraries, since they aren't 
 # incorporated directly into the final executable application binary.
 ################################################################################
-# PROJECT_LDFLAGS=-Wl,-rpath=./libs
+PROJECT_LDFLAGS=-Wl,-rpath=./libs
+#-Wl,-rpath=.
+#-Wl,--enable-new-dtags
 
 ################################################################################
 # PROJECT DEFINES
@@ -104,7 +106,8 @@
 #
 #   Note: Leave a leading space when adding list items with the += operator
 ################################################################################
-# PROJECT_CFLAGS = 
+# -ldl for dynamic linking
+# PROJECT_CFLAGS += -ldl
 
 ################################################################################
 # PROJECT OPTIMIZATION CFLAGS
