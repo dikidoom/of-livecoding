@@ -1,7 +1,12 @@
 #include "ofApp.h"
 #include <dlfcn.h>
+#include <csignal>
 
 //--------------------------------------------------------------
+void signal_handler( int signal ){
+  ofLog() << "Whoo, a signal!";
+}
+
 void ofApp::setup(){
   // opening
   ofLog() << "Opening lib ... ";
@@ -12,6 +17,8 @@ void ofApp::setup(){
     // binding
     dynamics.mydouble = (int(*)(int)) dlsym( handle, "mydouble" );
   }
+  // signal
+  std::signal( SIGINT, signal_handler );
 }
 
 void ofApp::exit(){

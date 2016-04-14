@@ -7,3 +7,7 @@ extern "C" {
 extern "C" int mydouble( int x ){
   return x * 2;
 };
+
+extern "C" void bla( ){
+  //printf( "Shit." );
+};
