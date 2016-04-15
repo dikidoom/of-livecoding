@@ -6,10 +6,16 @@ Also, a bash script to recompile & signal a reload on save.
 # How
 
 ```
+# compile and run
 make && make run
+
 cd bin/data
+
+# start watchdog compilation
 ./watchdog.sh
-vi mylib.cpp
+
+# livecoding!!! (save to update)
+vi simple.cpp
 ```
 
 # Env / Deps
