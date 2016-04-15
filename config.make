@@ -108,6 +108,8 @@ PROJECT_LDFLAGS=-Wl,-rpath=./libs,-rpath=./data
 ################################################################################
 # -ldl for dynamic linking
 # PROJECT_CFLAGS += -ldl
+# PROJECT_CFLAGS += -Wfatal-errors -rdynamic
+PROJECT_CFLAGS += -Wfatal-errors
 
 ################################################################################
 # PROJECT OPTIMIZATION CFLAGS

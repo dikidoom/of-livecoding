@@ -29,12 +29,15 @@ void ofApp::update(){
 void ofApp::hotSwap( bool firstTime ){
   sigSwap = 0;
   if( !firstTime ){
+    ofLog() << "Closing lib ... ";
     // close previous handle
     (*dynamics.destroy)( piston );
     int close = dlclose( handle );
     if( close != 0 ){
       ofLog() << "Error: " << dlerror();
       return;
+    } else {
+      ofLog() << "Lib closed ok.";
     }
   }
   // open new handle
@@ -48,14 +51,12 @@ void ofApp::hotSwap( bool firstTime ){
     // bind function names
     dynamics.create = (MovingPart*(*)()) dlsym( handle, "createObject" );
     dynamics.destroy = (void(*)(MovingPart*)) dlsym( handle, "destroyObject" );
-    dynamics.sanity = (void(*)()) dlsym( handle, "sanity" );
     if( dynamics.create == NULL ||
         dynamics.destroy == NULL){
       ofLog() << "Error binding symbols";
     }
-    ofLog() << "foo";
+    // create object from library
     piston = (*dynamics.create)();
-    ofLog() << "bar";
   }
 }
 

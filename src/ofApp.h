@@ -31,7 +31,6 @@ class ofApp : public ofBaseApp{
         struct {
           MovingPart* (*create)(void);
           void (*destroy)(MovingPart*);
-          void (*sanity)(void);
         } dynamics;
 
         MovingPart* piston;

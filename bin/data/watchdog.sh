@@ -7,8 +7,7 @@ do
     # compile when .cpp changes
     for x in $(find . -name "*.cpp" -newer watchdog.sh)
     do
-        echo ============================================================ compiling $x
-        # ./compilelib.sh
+        echo compiling $x
         cppname=$(basename $x)
         soname=$(basename $x .cpp).so
         now=$(date +"%H:%M:%S")
@@ -16,13 +15,11 @@ do
         if [ $? -eq 0 ]
         then
             tput setaf 2
-            # echo -e '\033[32m============================================================ WIN\033[0m'
-            echo ------------------------------------------------------------ $now all fine
+            echo done ------------------------------------------------------- $now
             tput setaf 9
         else
             tput setaf 1
-            # echo -e '\033[31m============================================================ FAIL\033[0m'
-            echo XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX $now ERROR
+            echo fail XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX $now
             tput setaf 9
         fi
         update_app=1

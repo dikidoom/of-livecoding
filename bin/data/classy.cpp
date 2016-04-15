@@ -3,61 +3,45 @@
 
 // ============================================================
 //                                                        Class
-MovingPart::MovingPart()
+class Piston : public MovingPart {
+public:
+  Piston();        // constructor and destructor are nothing special.
+  ~Piston();       //
+  void update();   // update and payload are overloaded
+  float payload(); // (declared purely virtual in MovingPart).
+private:
+  int counter;     // all kinds of additional hijinx -
+  int max;         // nobody cares as long as the MovingPart interface is satisfied.
+};
+
+Piston::Piston()
   : counter( 0 )
   , max( 360 ){
-  std::cout << "in classy.so: constructor\n";
 }
 
-void MovingPart::update(){
+Piston::~Piston(){
+}
+
+void Piston::update(){
   ++counter;
   counter %= max;
 }
 
-float MovingPart::payload(){
+float Piston::payload(){
   return ((float)counter / max) * 1.0f; // <------------ change this to 2, 0.1, ...
 }
-
-// class Piston : public MovingPart {
-// public:
-//   Piston();
-//   void update();
-//   float payload();
-//   int counter;
-//   int max;
-// };
-
-// Piston::Piston()
-//   : max( 360 ){  
-// }
-
-// void Piston::update(){
-//   ++counter;
-//   counter %= max;
-// }
-
-// float Piston::payload(){
-//   return 1.0f * counter / max;
-// }
 
 // =============================================================
 //                                             Library Interface
 extern "C" {
-  void sanity( void );
-  MovingPart* createObject( void );
-  void destroyObject( MovingPart* object );
+  Piston* createObject( void );         // because language linkage happens in C and the main C++ app
+  void destroyObject( Piston* object ); // has no clue of our class details, we need these helpers.
 };
 
-void sanity( void ){
-  std::cout << "sanity\n";
+Piston* createObject( void ){
+  return new Piston;
 }
 
-MovingPart* createObject( void ){
-  std::cout << "in classy.so: createObject\n";
-  MovingPart* foo = new MovingPart;
-  return foo;
-}
-
-void destroyObject( MovingPart* object ){
+void destroyObject( Piston* object ){
   delete object;
 }

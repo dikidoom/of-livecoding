@@ -2,9 +2,8 @@
 
 class MovingPart {
  public:
-  MovingPart();
-  virtual void update();
-  virtual float payload();
-  int counter;
-  int max;
+  // virtual MovingPart()=0;
+  // virtual ~MovingPart()=0;
+  virtual void update()=0;
+  virtual float payload()=0;
 };
