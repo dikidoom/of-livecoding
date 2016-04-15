@@ -11,6 +11,8 @@ void signal_handler( int signal ){
 
 //--------------------------------------------------------------
 void ofApp::setup(){
+  handle = NULL;
+  piston = nullptr;
   hotSwap( true );  // open library for the first time
   std::signal( SIGINT, signal_handler ); // register signal handler
 }
@@ -20,6 +22,7 @@ void ofApp::update(){
   if( sigSwap == 1 ){
     hotSwap( false );
   }
+  piston->update();
 }
 
 //--------------------------------------------------------------
@@ -27,6 +30,7 @@ void ofApp::hotSwap( bool firstTime ){
   sigSwap = 0;
   if( !firstTime ){
     // close previous handle
+    (*dynamics.destroy)( piston );
     int close = dlclose( handle );
     if( close != 0 ){
       ofLog() << "Error: " << dlerror();
@@ -35,38 +39,45 @@ void ofApp::hotSwap( bool firstTime ){
   }
   // open new handle
   ofLog() << "Opening lib ... ";
-  handle = dlopen( "simple.so", RTLD_LAZY );
+  handle = dlopen( "classy.so", RTLD_LAZY );
   if( handle == NULL ){
     ofLog() << "Error: " << dlerror();
     return;
   } else {
+    ofLog() << "Lib opened ok.";
     // bind function names
-    dynamics.mydouble = (float(*)(float)) dlsym( handle, "mydouble" );
-    dynamics.mytriple = (float(*)(float)) dlsym( handle, "mytriple" );
+    dynamics.create = (MovingPart*(*)()) dlsym( handle, "createObject" );
+    dynamics.destroy = (void(*)(MovingPart*)) dlsym( handle, "destroyObject" );
+    dynamics.sanity = (void(*)()) dlsym( handle, "sanity" );
+    if( dynamics.create == NULL ||
+        dynamics.destroy == NULL){
+      ofLog() << "Error binding symbols";
+    }
+    ofLog() << "foo";
+    piston = (*dynamics.create)();
+    ofLog() << "bar";
   }
 }
 
 //--------------------------------------------------------------
-ofPoint orbit( int distance = 300, float speed = 1.0f ){
-  uint64_t time = ofGetElapsedTimeMillis();
-  float scale = speed / 1000;
+ofPoint orbit( int distance = 300, float position = .0f ){
   ofPoint center = { ofGetWindowWidth() / 2,
                      ofGetWindowHeight() / 2 };
-  ofPoint offset = { cos( time * scale ) * distance,
-                     sin( time * scale ) * distance };
+  ofPoint offset = { cos( position * TWO_PI ) * distance,
+                     sin( position * TWO_PI ) * distance };
   return center + offset;
 }
 
 void ofApp::draw(){
   ofClear( ofColor::black );
   int distance = 100;
-  float speed = 1.0f;
-  ofPoint orbit1 = orbit( 1 * distance,
-                          speed );
+  float position = ofGetElapsedTimeMillis() / 5000.f;
+  ofPoint orbit1 = orbit( distance,
+                          position );
   ofPoint orbit2 = orbit( 2 * distance,
-                          (*dynamics.mydouble)( speed ) );
-  ofPoint orbit3 = orbit( 3 * distance,
-                          (*dynamics.mytriple)( speed ) );
+                          piston->payload() );
+  /* ofPoint orbit3 = orbit( 3 * distance, */
+  /*                         (*dynamics.mytriple)( speed ) ); */
   //
   ofSetColor( ofColor::red );
   ofDrawSphere( orbit1, 20 );
@@ -74,8 +85,8 @@ void ofApp::draw(){
   ofSetColor( ofColor::green );
   ofDrawSphere( orbit2, 20 );
   //
-  ofSetColor( ofColor::blue );
-  ofDrawSphere( orbit3, 20 );
+  /* ofSetColor( ofColor::blue ); */
+  /* ofDrawSphere( orbit3, 20 ); */
 }
 
 //--------------------------------------------------------------

@@ -11,12 +11,19 @@ do
         # ./compilelib.sh
         cppname=$(basename $x)
         soname=$(basename $x .cpp).so
+        now=$(date +"%H:%M:%S")
         g++ -fPIC -shared $cppname -o $soname
         if [ $? -eq 0 ]
         then
-            echo -e '\033[32m============================================================ WIN\033[0m'
+            tput setaf 2
+            # echo -e '\033[32m============================================================ WIN\033[0m'
+            echo ------------------------------------------------------------ $now all fine
+            tput setaf 9
         else
-            echo -e '\033[31m============================================================ FAIL\033[0m'
+            tput setaf 1
+            # echo -e '\033[31m============================================================ FAIL\033[0m'
+            echo XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX $now ERROR
+            tput setaf 9
         fi
         update_app=1
     done

@@ -1,7 +1,9 @@
+# !! outdated and kept for reference only !!
+
 # shared library:
-g++ -fPIC -shared mylib.cpp -o mylib.so
+echo g++ -fPIC -shared mylib.cpp -o mylib.so
 
 # main
-g++ mymain.cpp -ldl -Wl,-rpath=. -o mymain
+echo g++ mymain.cpp -ldl -Wl,-rpath=. -o mymain
 
-cp mylib.so ../libs
+echo cp mylib.so ../libs

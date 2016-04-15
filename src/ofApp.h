@@ -1,6 +1,7 @@
 #pragma once
 
 #include "ofMain.h"
+#include "../bin/data/interface.h"
 #include <csignal>
 
 class ofApp : public ofBaseApp{
@@ -28,9 +29,12 @@ class ofApp : public ofBaseApp{
         void* handle; // library handle
 
         struct {
-          float(*mydouble)(float);
-          float(*mytriple)(float);
-        } dynamics; // function bindings
+          MovingPart* (*create)(void);
+          void (*destroy)(MovingPart*);
+          void (*sanity)(void);
+        } dynamics;
 
+        MovingPart* piston;
+        
         static volatile std::sig_atomic_t sigSwap; // signal flag (interprocess communication gymnastics)
 };
