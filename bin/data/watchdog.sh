@@ -8,7 +8,16 @@ do
     for x in $(find . -name "*.cpp" -newer watchdog.sh)
     do
         echo ============================================================ compiling $x
-        ./compilelib.sh
+        # ./compilelib.sh
+        cppname=$(basename $x)
+        soname=$(basename $x .cpp).so
+        g++ -fPIC -shared $cppname -o $soname
+        if [ $? -eq 0 ]
+        then
+            echo -e '\033[32m============================================================ WIN\033[0m'
+        else
+            echo -e '\033[31m============================================================ FAIL\033[0m'
+        fi
         update_app=1
     done
     # on compilation,
