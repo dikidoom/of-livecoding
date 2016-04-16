@@ -11,18 +11,18 @@ do
         cppname=$(basename $x)
         soname=$(basename $x .cpp).so
         now=$(date +"%H:%M:%S")
-        g++ -fPIC -shared $cppname -o $soname
+        source trickycompile.sh $cppname $soname
         if [ $? -eq 0 ]
         then
             tput setaf 2
             echo done ------------------------------------------------------- $now
             tput setaf 9
+            update_app=1
         else
             tput setaf 1
             echo fail XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX $now
             tput setaf 9
         fi
-        update_app=1
     done
     # on compilation,
     # update timestamp & send signal to app

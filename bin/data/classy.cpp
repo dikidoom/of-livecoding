@@ -1,4 +1,5 @@
 #include "interface.h"
+#include "ofMain.h" // <------------ hey look, its openFrameworks!
 #include <iostream>
 
 // this is the implementation of the 'interface' defined in interface.h
@@ -17,8 +18,9 @@ class Piston : public MovingPart {
 public:
   Piston();        // constructor and destructor are nothing special.
   ~Piston();       //
-  void update();   // update and payload are overloaded
-  float payload(); // (declared purely virtual in MovingPart).
+  void update();   // update, draw and payload are overloaded
+  void draw();     // (declared purely virtual in MovingPart).
+  float payload(); //
 private:
   int counter;     // all kinds of additional hijinx -
   int max;         // nobody cares as long as the MovingPart interface is satisfied.
@@ -37,8 +39,14 @@ void Piston::update(){
   counter %= max;
 }
 
+void Piston::draw(){
+  // Whats this, an openFrameworks call in your shared library? Oh yes!
+  ofSetColor( ofColor::yellow ); // <------------ change to white, yellow, ...
+  ofDrawSphere( { ofGetWidth() / 2, ofGetHeight() / 2 }, 30 );
+}
+
 float Piston::payload(){
-  return ((float)counter / max) * 1.0f; // <------------ change this to 2, 0.1, ...
+  return ((float)counter / max) * 1.0f;
 }
 
 // =============================================================

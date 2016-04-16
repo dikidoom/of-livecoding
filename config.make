@@ -77,6 +77,7 @@
 # incorporated directly into the final executable application binary.
 ################################################################################
 PROJECT_LDFLAGS=-Wl,-rpath=./libs,-rpath=./data
+#-Wl,-rpath-link=../../../libs/openFrameworksCompiled/lib/linux64
 #-Wl,-rpath=.
 #-Wl,--enable-new-dtags
 

@@ -88,6 +88,7 @@ void ofApp::draw(){
   //
   /* ofSetColor( ofColor::blue ); */
   /* ofDrawSphere( orbit3, 20 ); */
+  piston->draw();
 }
 
 //--------------------------------------------------------------

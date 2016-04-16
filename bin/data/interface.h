@@ -10,5 +10,6 @@ class MovingPart {
   // virtual MovingPart()=0;
   // virtual ~MovingPart()=0;
   virtual void update()=0;
+  virtual void draw()=0;
   virtual float payload()=0;
 };
