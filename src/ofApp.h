@@ -31,9 +31,9 @@ class ofApp : public ofBaseApp{
         struct {
           MovingPart* (*create)(void);
           void (*destroy)(MovingPart*);
-        } dynamics;
+        } dynamics; // necessary methods for constructing/deconstructing
 
-        MovingPart* piston;
+        MovingPart* piston; // interface class
         
         static volatile std::sig_atomic_t sigSwap; // signal flag (interprocess communication gymnastics)
 };

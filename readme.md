@@ -17,7 +17,7 @@ cd bin/data
 
 # terminal 3:
 # livecoding!!! (save to update)
-vi simple.cpp
+vi classy.cpp
 ```
 
 # Env / Deps

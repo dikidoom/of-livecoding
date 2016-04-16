@@ -1,6 +1,16 @@
 #include "interface.h"
 #include <iostream>
 
+// this is the implementation of the 'interface' defined in interface.h
+// note that it can be a subclass of the interface and add additional
+// members & methods, as long as it also implements the pure virtual
+// methods of the interface.
+//
+// the helper functions for constructing and de-constructing objects
+// are due to the linkage limitations – language linkage only works for
+// C semantics, which excludes C++ constructors/destructors – and
+// because the main app _intentionally_ has no clue about this implementation.
+
 // ============================================================
 //                                                        Class
 class Piston : public MovingPart {

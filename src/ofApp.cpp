@@ -31,7 +31,7 @@ void ofApp::hotSwap( bool firstTime ){
   if( !firstTime ){
     ofLog() << "Closing lib ... ";
     // close previous handle
-    (*dynamics.destroy)( piston );
+    dynamics.destroy( piston );
     int close = dlclose( handle );
     if( close != 0 ){
       ofLog() << "Error: " << dlerror();
@@ -56,7 +56,7 @@ void ofApp::hotSwap( bool firstTime ){
       ofLog() << "Error binding symbols";
     }
     // create object from library
-    piston = (*dynamics.create)();
+    piston = dynamics.create();
   }
 }
 
