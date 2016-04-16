@@ -41,7 +41,7 @@ void Piston::update(){
 
 void Piston::draw(){
   // Whats this, an openFrameworks call in your shared library? Oh yes!
-  ofSetColor( ofColor::yellow ); // <------------ change to white, yellow, ...
+  ofSetColor( ofColor::blue ); // <------------ change to white, yellow, ...
   ofDrawSphere( { ofGetWidth() / 2, ofGetHeight() / 2 }, 30 );
 }
 

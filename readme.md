@@ -5,7 +5,10 @@ Also, a bash script to recompile & signal a reload on save.
 
 # How
 
-Recompile your OF so that it creates a shared library with position-independent code:
+## 1) Recompile oF
+
+Recompile your oF so that it creates a shared library with position-independent code.
+
 change `line 241` in `./libs/openFrameworksCompiled/project/makefileCommon/compile.core.mk` from
 
 ```make
@@ -24,7 +27,7 @@ cp 0001-add-fPIC-flag-to-compile.core.mk.patch ../../../
 git apply 0001-add-fPIC-flag-to-compile.core.mk.patch
 ```
 
-then recompile oF:
+then **recompile oF** - this is important!
 
 ```sh
 cd libs/openFrameworksCompiles/project
@@ -32,7 +35,7 @@ make clean
 SHAREDCORE=1 make
 ```
 
---------------------
+## 2) Fun times
 
 ```sh
 # terminal 1:
